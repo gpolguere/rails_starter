@@ -1,0 +1,30 @@
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<a class="brand" href="#">Rails Project</a>
+			<div class="nav-collapse">
+				<ul class="nav">
+					<li class="<%= "active" if controller_name == "home" && controller.action_name == "index" %>"><%= link_to "Home", root_path %></li>
+					<% if user_signed_in? && current_user.is_at_least?("admin") && current_user %>
+						<li class="<%= "active" if controller_name == "admin" && controller.action_name == "index" %>"><%= link_to "Admin", admin_root_path %></li>
+						<li class="<%= "active" if controller_name == "users" %>"><%= link_to "Users", admin_users_path %></li>
+						<li class="<%= "active" if user_signed_in? && current_user.is_at_least?("admin") && controller_name == "roles" %>"><%= link_to "Roles", admin_roles_path %></li>
+					<% end %>
+				</ul>
+				<p class="navbar-text pull-right">
+					<% if !user_signed_in? %>
+						<%= link_to "Sign up", new_user_registration_path %> or <%= link_to "Sign in", new_user_session_path %>
+					<% elsif current_user.is_at_least? "admin" %>
+						Logged in as <%= link_to current_user.email, destroy_user_session_path, confirm: 'Log out?', method: :delete %>
+					<% end %>
+				</p>
+				<p class="navbar-text pull-right"></p>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+</div>
